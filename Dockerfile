@@ -130,10 +130,10 @@ RUN ln -sf /dev/stdout /var/log/nginx/access.log \
 
 # install multirun
 
-RUN curl -OL https://github.com/nicolas-van/multirun/releases/download/0.2.0/multirun-alpine-0.2.0.tar.gz \
-    && tar -zxvf multirun-alpine-0.2.0.tar.gz \
+RUN curl -OL https://github.com/nicolas-van/multirun/releases/download/0.3.0/multirun-alpine-0.3.0.tar.gz \
+    && tar -zxvf multirun-alpine-0.3.0.tar.gz \
     && mv multirun /bin \
-    && rm multirun-alpine-0.2.0.tar.gz
+    && rm multirun-alpine-0.3.0.tar.gz
     
 # configure folders to serve from /var/www/public
 
