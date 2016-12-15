@@ -130,9 +130,7 @@ RUN ln -sf /dev/stdout /var/log/nginx/access.log \
 
 # install multirun
 
-RUN apk update \
-    && apk add ca-certificates wget \
-    && wget https://github.com/nicolas-van/multirun/releases/download/0.2.0/multirun-alpine-0.2.0.tar.gz \
+RUN curl -OL https://github.com/nicolas-van/multirun/releases/download/0.2.0/multirun-alpine-0.2.0.tar.gz \
     && tar -zxvf multirun-alpine-0.2.0.tar.gz \
     && mv multirun /bin \
     && rm multirun-alpine-0.2.0.tar.gz
@@ -149,6 +147,9 @@ WORKDIR /var/www
 
 COPY nginx.conf /etc/nginx/nginx.conf
 COPY nginx.vh.default.conf /etc/nginx/conf.d/default.conf
+RUN sed -i 's/^;*pm\s*=.*/pm = ondemand/' /usr/local/etc/php-fpm.d/www.conf \
+    && sed -i 's/^;*pm.max_children\s*=.*/pm.max_children = 5/' /usr/local/etc/php-fpm.d/www.conf \
+    && sed -i 's/^;*pm.process_idle_timeout\s*=.*/pm.process_idle_timeout = 10s/' /usr/local/etc/php-fpm.d/www.conf
 
 EXPOSE 80 443
 CMD ["multirun", "-v", "php-fpm", "nginx -g \"daemon off;\""]
