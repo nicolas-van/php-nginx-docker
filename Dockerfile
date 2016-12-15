@@ -136,6 +136,16 @@ RUN apk update \
     && tar -zxvf multirun-alpine-0.2.0.tar.gz \
     && mv multirun /bin \
     && rm multirun-alpine-0.2.0.tar.gz
+    
+# configure folders to serve from /var/www/public
+
+RUN rmdir /var/www/html \
+    && mkdir /var/www/public \
+    && chown -R www-data:www-data /var/www
+    
+WORKDIR /var/www
+
+# add nginx & php-fpm configuration
 
 COPY nginx.conf /etc/nginx/nginx.conf
 COPY nginx.vh.default.conf /etc/nginx/conf.d/default.conf
