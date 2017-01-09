@@ -147,9 +147,6 @@ WORKDIR /var/www
 
 COPY nginx.conf /etc/nginx/nginx.conf
 COPY nginx.vh.default.conf /etc/nginx/conf.d/default.conf
-RUN sed -i 's/^;*pm\s*=.*/pm = ondemand/' /usr/local/etc/php-fpm.d/www.conf \
-    && sed -i 's/^;*pm.max_children\s*=.*/pm.max_children = 5/' /usr/local/etc/php-fpm.d/www.conf \
-    && sed -i 's/^;*pm.process_idle_timeout\s*=.*/pm.process_idle_timeout = 10s/' /usr/local/etc/php-fpm.d/www.conf
 
 EXPOSE 80 443
 CMD ["multirun", "-v", "php-fpm", "nginx -g \"daemon off;\""]
